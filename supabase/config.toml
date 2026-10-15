@@ -1,0 +1,19 @@
+project_id = "enginear"
+
+[auth]
+site_url = "enginear://"
+additional_redirect_urls = ["enginear://**"]
+minimum_password_length = 8
+
+[auth.email]
+enable_signup = true
+enable_confirmations = true
+
+[functions.stripe-webhook]
+verify_jwt = false
+
+[functions.checkr-webhook]
+verify_jwt = false
+
+[functions.send-push]
+verify_jwt = false

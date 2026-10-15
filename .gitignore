@@ -1,0 +1,16 @@
+node_modules/
+.expo/
+dist/
+web-build/
+ios/
+android/
+.env
+supabase/functions/.env
+supabase/.temp/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+.DS_Store
+expo-env.d.ts

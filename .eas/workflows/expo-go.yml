@@ -1,0 +1,16 @@
+# Publishes the latest code so it opens in Expo Go.
+# Runs automatically whenever code is pushed to main, or manually from expo.dev > Workflows.
+name: Send to Expo Go
+
+on:
+  push:
+    branches: ['main']
+
+jobs:
+  publish:
+    name: Publish update
+    type: update
+    environment: preview
+    params:
+      branch: preview
+      message: Latest EngiNear test version
