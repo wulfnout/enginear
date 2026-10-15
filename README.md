@@ -8,7 +8,7 @@ A two-sided marketplace app for iPhone and Android that connects car owners with
 - **Client-controlled jobs.** For mobile jobs the mechanic checks in and the client confirms. For shop jobs the client drops off the car and the mechanic confirms. Quotes need the client's approval. The mechanic can only finish after the client approves the work, which happens automatically 24 hours after the estimated end if the client never responds.
 - **Everyone** gets an AI Help Assistant, real-time chat, push notifications, dark mode, adjustable text size and a safety center.
 
-Mascot: **Hex**, a friendly steel hex bolt. Colors: graphite `#1D232B` and safety orange `#C2410C` / `#F97316`.
+Logo mark: a steel combination wrench on the diagonal with an orange grip. Colors: graphite `#1D232B` and safety orange `#C2410C` / `#F97316`.
 
 Built from the Clean Connect codebase, with its own database, Stripe account, Expo project and website.
 
