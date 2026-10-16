@@ -3,6 +3,7 @@ import * as WebBrowser from 'expo-web-browser';
 import React, { useState } from 'react';
 import { Alert, Share } from 'react-native';
 import { DisplaySettings, HelpMenu, MeHeader } from '@/components/MeHeader';
+import { AmountSlider } from '@/components/AmountSlider';
 import { RatingCard } from '@/components/RatingCard';
 import { TopHeader, Card, Chip, MenuGroup, MenuItem, Row, Screen, T } from '@/components/ui';
 import { useData } from '@/hooks/useData';
@@ -49,10 +50,8 @@ export default function MechanicMe() {
       </MenuGroup>
       <Card>
         <T v="h3">Weekly earnings goal</T>
-        <T v="small" muted>Shown on your Earnings tab</T>
-        <Row gap={8} wrap>
-          {[600, 1000, 1500, 2000, 3000].map((v) => <Chip key={v} label={`$${v}`} on={mechanic?.weekly_goal === v} onPress={() => updateMechanic({ weekly_goal: v })} />)}
-        </Row>
+        <T v="small" muted>Slide to set it. Shown on your Earnings tab.</T>
+        <AmountSlider label="Weekly earnings goal" value={mechanic?.weekly_goal ?? 1000} onCommit={(v) => updateMechanic({ weekly_goal: v })} />
       </Card>
       <DisplaySettings />
       <HelpMenu />

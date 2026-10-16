@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
 import React from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
+import { AmountSlider } from '@/components/AmountSlider';
 import { BarChart } from '@/components/BarChart';
 import { Avatar, TopHeader, Card, Chip, EmptyState, KV, Progress, Row, Stat, T } from '@/components/ui';
 import { useData } from '@/hooks/useData';
@@ -94,12 +95,8 @@ export default function Spending() {
 
         <Card>
           <T v="h3">Monthly budget</T>
-          <T v="small" muted>See how close you are each month.</T>
-          <Row gap={8} wrap>
-            {[150, 200, 300, 400, 600].map((v) => (
-              <Chip key={v} label={`$${v}`} on={client?.monthly_budget === v} onPress={() => updateClient({ monthly_budget: v })} />
-            ))}
-          </Row>
+          <T v="small" muted>Slide to set it. See how close you are each month.</T>
+          <AmountSlider label="Monthly budget" value={client?.monthly_budget ?? 300} onCommit={(v) => updateClient({ monthly_budget: v })} />
         </Card>
       </ScrollView>
     </View>

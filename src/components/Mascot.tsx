@@ -1,36 +1,12 @@
-import React, { useEffect, useRef } from 'react';
-import { Animated, Easing, View } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 import Svg, { G, Path, Rect } from 'react-native-svg';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
 
-/**
- * EngiNear mark: a steel combination wrench lying on the diagonal.
- * Every few seconds it gives a short ratchet twist, like tightening a bolt, then settles back.
- * Holds still when Reduce Motion is on.
- */
+/** EngiNear mark: a steel combination wrench lying on the diagonal. It holds still. */
 export function Mascot({ size = 30, label = 'EngiNear' }: { size?: number; label?: string }) {
-  const reduced = useReducedMotion();
-  const t = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    if (reduced) { t.setValue(0); return; }
-    const loop = Animated.loop(
-      Animated.timing(t, { toValue: 1, duration: 3000, easing: Easing.linear, useNativeDriver: true }),
-    );
-    loop.start();
-    return () => loop.stop();
-  }, [reduced, t]);
-
-  const twist = t.interpolate({
-    inputRange: [0, 0.2, 0.3, 0.36, 0.42, 0.6, 1],
-    outputRange: ['0deg', '0deg', '-16deg', '-12deg', '-14deg', '0deg', '0deg'],
-  });
-
   return (
     <View accessible accessibilityRole="image" accessibilityLabel={label} style={{ width: size, height: size }}>
-      <Animated.View style={{ width: size, height: size, transform: [{ rotate: twist }] }}>
-        <WrenchSvg />
-      </Animated.View>
+      <WrenchSvg />
     </View>
   );
 }
