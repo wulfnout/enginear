@@ -72,6 +72,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     const { data: p } = await supabase.from('profiles').select('*').eq('id', s.user.id).single();
     setProfile(p as Profile | null);
+    // Remember this phone's time zone so booking times in notifications show in local time, anywhere in the US.
+    try {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      if (p && tz && (p as Profile).timezone !== tz) supabase.from('profiles').update({ timezone: tz }).eq('id', s.user.id).then(() => {});
+    } catch { /* not critical */ }
     if (p?.role === 'client') {
       const { data } = await supabase.from('client_profiles').select('*').eq('id', s.user.id).single();
       setClient(data as ClientProfile | null); setMechanic(null);

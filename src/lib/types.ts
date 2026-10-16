@@ -14,6 +14,7 @@ export interface Profile {
   phone: string | null;
   avatar_url: string | null;
   expo_push_token: string | null;
+  timezone?: string | null;
 }
 
 export interface ClientProfile {

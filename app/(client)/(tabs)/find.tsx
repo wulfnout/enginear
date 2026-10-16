@@ -1,17 +1,17 @@
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { FlatList, Pressable, RefreshControl, View } from 'react-native';
+import { Alert, FlatList, Pressable, RefreshControl, TextInput, View } from 'react-native';
 import MapView, { Circle, Marker, PROVIDER_DEFAULT, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Platform } from 'react-native';
 import { MechanicCard } from '@/components/cards';
 import { MapButtons, USA_REGION } from '@/components/MapButtons';
 import { FirstPost } from '@/components/FirstPost';
 import { usePlatformStats } from '@/hooks/usePlatformStats';
-import { TopHeader, Chip, ChipScroll, EmptyState, LinkButton, Row, SearchBar, Segmented, T } from '@/components/ui';
+import { Button, TopHeader, Chip, ChipScroll, EmptyState, LinkButton, Row, SearchBar, Segmented, T } from '@/components/ui';
 import { setDraft, useDraft } from '@/hooks/draft';
 import { useData } from '@/hooks/useData';
-import { getSaved, searchMechanics, setSaved } from '@/lib/api';
+import { geocode, getSaved, searchMechanics, setSaved } from '@/lib/api';
 import { dayLabel } from '@/lib/format';
 import { applyFilters, FILTERS, sortMechanics, type Filter, type SortKey } from '@/lib/match';
 import type { MechanicListing } from '@/lib/types';
@@ -43,13 +43,39 @@ export default function Find() {
   useEffect(() => { if (params.view === 'map' || params.view === 'list') setView(params.view); }, [params.view]);
 
   const effectiveService = draft?.service ?? service;
+  // Search anywhere in the US: a city, state or ZIP the client types, or their own address.
+  const [area, setArea] = useState<{ label: string; lat: number; lng: number } | null>(null);
+  const [areaOpen, setAreaOpen] = useState(false);
+  const [areaText, setAreaText] = useState('');
+  const [areaBusy, setAreaBusy] = useState(false);
+  const centerLat = area?.lat ?? client?.lat ?? null;
+  const centerLng = area?.lng ?? client?.lng ?? null;
+  const NEARBY_MILES = 60;
   const { data, refreshing, refresh } = useData(async () => {
-    const [list, saved] = await Promise.all([
-      searchMechanics({ lat: client?.lat ?? null, lng: client?.lng ?? null, service: effectiveService, query: submittedQ, radius: view === 'map' ? 5000 : 30 }),
+    const base = { lat: centerLat, lng: centerLng, service: effectiveService, query: submittedQ };
+    const [first, saved] = await Promise.all([
+      searchMechanics({ ...base, radius: view === 'map' ? 5000 : NEARBY_MILES }),
       getSaved(),
     ]);
-    return { list, saved };
-  }, [effectiveService, submittedQ, client?.lat, view]);
+    // Nobody nearby yet: show the closest people anywhere in the country instead of an empty list.
+    if (!first.length && view === 'list' && centerLat != null) {
+      const anywhere = await searchMechanics({ ...base, radius: 5000 });
+      return { list: anywhere, saved, farther: anywhere.length > 0 };
+    }
+    return { list: first, saved, farther: false };
+  }, [effectiveService, submittedQ, centerLat, centerLng, view]);
+
+  const searchArea = async () => {
+    const t = areaText.trim();
+    if (t.length < 2) return;
+    setAreaBusy(true);
+    const pos = await geocode(/usa|united states/i.test(t) ? t : `${t}, USA`);
+    setAreaBusy(false);
+    if (!pos) return Alert.alert('Place not found', 'Try a city and state, like “Denver, CO”, or a ZIP code.');
+    setArea({ label: t, ...pos });
+    setAreaOpen(false);
+    mapRef.current?.animateToRegion({ latitude: pos.lat, longitude: pos.lng, latitudeDelta: 0.4, longitudeDelta: 0.4 }, 600);
+  };
 
   // A booking request for "come to me" hides shop-only mechanics, and "take it to a shop" hides mobile-only ones.
   const place = draft?.place ?? 'either';
@@ -65,15 +91,35 @@ export default function Find() {
   };
   const open = (id: string) => router.push({ pathname: '/mechanic/[id]', params: { id } });
 
-  const center = client?.lat != null && client?.lng != null ? { latitude: client.lat, longitude: client.lng }
+  const center = centerLat != null && centerLng != null ? { latitude: centerLat, longitude: centerLng }
     : list.find((x) => x.lat != null) ? { latitude: list.find((x) => x.lat != null)!.lat!, longitude: list.find((x) => x.lat != null)!.lng! }
     : { latitude: 39.5, longitude: -98.35 };
-  const region = client?.lat != null ? { ...center, latitudeDelta: 0.18, longitudeDelta: 0.18 } : USA_REGION;
+  const region = centerLat != null ? { ...center, latitudeDelta: area ? 0.4 : 0.18, longitudeDelta: area ? 0.4 : 0.18 } : USA_REGION;
 
   // The map needs the room, so its header is just the List/Map switch and filters.
   const isMap = view === 'map';
   const header = (
     <View style={{ gap: 10, paddingTop: isMap ? 8 : 12, paddingBottom: isMap ? 8 : 0 }}>
+      <View style={{ marginHorizontal: 16, gap: 8 }}>
+        <Pressable accessibilityRole="button" accessibilityLabel="Change search area" onPress={() => setAreaOpen(!areaOpen)}
+          style={{ flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: 40 }}>
+          <Ionicons name="location" size={20} color={c.brand} />
+          <T v="small" numberOfLines={1} style={{ flex: 1 }}>Near <T v="small" bold>{area?.label ?? client?.address ?? 'anywhere in the USA'}</T></T>
+          <T v="label" style={{ textDecorationLine: 'underline' }}>Change</T>
+        </Pressable>
+        {areaOpen ? (
+          <View style={{ gap: 8 }}>
+            <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
+              <TextInput value={areaText} onChangeText={setAreaText} onSubmitEditing={searchArea} placeholder="City and state, or ZIP" placeholderTextColor={c.muted}
+                autoFocus returnKeyType="search" accessibilityLabel="City and state, or ZIP"
+                style={{ flex: 1, minHeight: 48, borderWidth: 1.5, borderColor: c.line, borderRadius: 12, paddingHorizontal: 12, color: c.text, fontSize: 16, backgroundColor: c.surface }} />
+              <Button small title="Search" loading={areaBusy} onPress={searchArea} />
+            </View>
+            {area ? <LinkButton title="Back to my address" onPress={() => { setArea(null); setAreaOpen(false); setAreaText(''); }} /> : null}
+            <T v="tiny" muted>Works anywhere in the USA. To book there, set that address in Me › Address so the mechanic knows where to go.</T>
+          </View>
+        ) : null}
+      </View>
       {!isMap ? <View style={{ paddingHorizontal: 16 }}><FirstPost audience="client" /></View> : null}
       {draft ? (
         <View style={{ marginHorizontal: 16, backgroundColor: c.brandSoft, borderRadius: 12, padding: 12, flexDirection: 'row', alignItems: 'center', gap: 10 }}>
@@ -106,6 +152,7 @@ export default function Find() {
       {view === 'list' ? (
         <View style={{ paddingHorizontal: 16, gap: 8 }}>
           <ChipScrollInline>{SORTS.map((s) => <Chip key={s.value} icon={sort === s.value ? 'checkmark' : undefined} label={s.label} on={sort === s.value} onPress={() => setSort(s.value)} />)}</ChipScrollInline>
+          {data?.farther ? <T v="small" muted>No one within {NEARBY_MILES} miles yet. Here are the closest anywhere in the USA.</T> : null}
           <T v="small" bold>{list.length} mechanic{list.length === 1 ? '' : 's'}{submittedQ ? ` for “${submittedQ}”` : ''}</T>
         </View>
       ) : null}
