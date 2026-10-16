@@ -14,7 +14,7 @@ Deno.serve(async (req) => {
   // Stripe only accepts https return links, so Stripe sends mechanics to a small page on the website,
   // which hands them back to the app (the app tells us its own link in `returnTo`).
   const configured = Deno.env.get('STRIPE_CONNECT_RETURN_URL') ?? '';
-  const base = /^https:\/\//.test(configured) ? configured : 'https://enginear.app/payouts-done.html';
+  const base = /^https:\/\//.test(configured) ? configured : 'https://cleanconnect.info/enginear/payouts-done.html';
   const appLink = typeof returnTo === 'string' && /^(enginear|exp|exps):\/\//.test(returnTo) ? returnTo : 'enginear://payouts-done';
   const returnUrl = `${base}?to=${encodeURIComponent(appLink)}`;
   const refreshUrl = `${returnUrl}&refresh=1`;

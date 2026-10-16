@@ -5,7 +5,7 @@ import type { Pricing, ServicePrice } from './types';
 export type IconName = ComponentProps<typeof Ionicons>['name'];
 
 /** The EngiNear website (return pages after email links and Stripe, terms, sharing). */
-export const SITE_URL = process.env.EXPO_PUBLIC_SITE_URL ?? 'https://enginear.app';
+export const SITE_URL = process.env.EXPO_PUBLIC_SITE_URL ?? 'https://cleanconnect.info/enginear';
 
 export const SUPPORT_EMAIL = process.env.EXPO_PUBLIC_SUPPORT_EMAIL ?? 'enginearsupport@gmail.com';
 
