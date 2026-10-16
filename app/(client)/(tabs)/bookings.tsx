@@ -56,6 +56,17 @@ export default function Bookings() {
     ]);
   };
 
+  // Optional thank-you to EngiNear itself, separate from the mechanic's tip.
+  const tipPlatform = (b: BookingWithPeople) => {
+    Alert.alert('Support EngiNear', 'Optional. This tip goes to EngiNear to help keep the app running, separate from your mechanic’s tip.', [
+      ...[200, 500, 1000].map((cents) => ({ text: money(cents), onPress: async () => {
+        try { await addTip(b.id, cents, 'platform'); refresh(); Alert.alert('Thank you!', `Your ${money(cents)} means a lot to us.`); }
+        catch (e) { Alert.alert('Tip not sent', (e as Error).message); }
+      } })),
+      { text: 'Not now', style: 'cancel' as const },
+    ]);
+  };
+
   const message = async (b: BookingWithPeople) => {
     if (!b.mechanic_id) return;
     const conv = await startConversation(b.mechanic_id);
@@ -86,6 +97,7 @@ export default function Bookings() {
           {['open', 'requested', 'confirmed', 'in_progress'].includes(b.status) && b.pricing !== 'flat' ? <Pill label={b.pricing === 'quote' ? 'Quote after diagnosis' : 'Plus approved parts'} /> : null}
           {b.payment_status === 'failed' ? <Pill tone="bad" label="Payment failed" /> : null}
           {b.tip_cents ? <Pill tone="ok" label={`Tipped ${money(b.tip_cents)}`} /> : null}
+          {b.platform_tip_cents ? <Pill tone="ok" icon="heart" label={`Supported EngiNear`} /> : null}
         </Row>
         {tab === 'upcoming' ? <ClientJobSteps b={b} onChange={refresh} /> : null}
         {b.status === 'completed' && b.payment_status === 'failed' ? <PaymentRetry b={b} onChange={refresh} /> : null}
@@ -103,6 +115,9 @@ export default function Bookings() {
               {!b.client_reviewed ? <Button small icon="star" title="Rate" style={{ flex: 1 }} onPress={() => router.push({ pathname: '/review/[id]', params: { id: b.id } })} /> : null}
               {!b.tip_cents ? <Button small kind="soft" icon="cash-outline" title="Add a tip" style={{ flex: 1 }} onPress={() => tip(b)} /> : null}
             </Row>
+            {!b.platform_tip_cents && b.payment_status === 'paid' ? (
+              <Button small kind="ghost" icon="heart-outline" title="Tip EngiNear (optional)" onPress={() => tipPlatform(b)} />
+            ) : null}
             <Row gap={8}>
               {b.mechanic_id ? <Button small kind="soft" icon="repeat" title="Book again" style={{ flex: 1 }} onPress={() => router.push({ pathname: '/book', params: { mechanicId: b.mechanic_id! } })} /> : null}
               {!b.problem_report && Date.now() - new Date(b.completed_at ?? b.scheduled_at).getTime() < 48 * 36e5 ? (

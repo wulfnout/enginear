@@ -133,6 +133,7 @@ export interface Booking {
   total_cents: number;
   mechanic_payout_cents: number;
   tip_cents: number;
+  platform_tip_cents: number;
   cancel_fee_cents: number;
   payment_status: string;
   client_reviewed: boolean;

@@ -73,7 +73,8 @@ export const rescheduleBooking = async (id: string, when: Date) => {
   if (error) throw error;
 };
 export const cancelBooking = (id: string) => callFunction<{ feeCents: number }>('cancel-booking', { bookingId: id });
-export const addTip = (id: string, cents: number) => callFunction('add-tip', { bookingId: id, amountCents: cents });
+/** Tip the worker (100% theirs), or `to: 'platform'` for an optional thank-you to EngiNear itself. */
+export const addTip = (id: string, cents: number, to: 'worker' | 'platform' = 'worker') => callFunction('add-tip', { bookingId: id, amountCents: cents, to });
 export const reportProblem = async (id: string, text: string) => {
   const { error } = await supabase.rpc('report_problem', { p_booking: id, p_text: text });
   if (error) throw error;
