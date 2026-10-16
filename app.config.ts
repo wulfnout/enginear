@@ -1,7 +1,7 @@
 import type { ExpoConfig } from 'expo/config';
 
 // EngiNear's own Expo project (separate from Clean Connect). Set EAS_PROJECT_ID once the project exists on expo.dev.
-const PROJECT_ID = process.env.EAS_PROJECT_ID ?? '';
+const PROJECT_ID = process.env.EAS_PROJECT_ID ?? '11b03f02-59c6-4a45-bacb-cc5d4dc0cf2f';
 
 const config: ExpoConfig = {
   name: 'EngiNear',
