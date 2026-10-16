@@ -152,7 +152,7 @@ export default function Find() {
               onPress={() => setSelected(null)}
             >
               {client?.lat != null && client?.lng != null ? (
-                <Circle center={{ latitude: client.lat, longitude: client.lng }} radius={8000} strokeColor={BRAND} fillColor="rgba(194,65,12,0.07)" />
+                <Circle center={{ latitude: client.lat, longitude: client.lng }} radius={8000} strokeColor={BRAND} fillColor="rgba(235,105,43,0.07)" />
               ) : null}
               {list.filter((x) => x.lat != null && x.lng != null).map((x) => (
                 <Marker key={x.id} coordinate={{ latitude: x.lat!, longitude: x.lng! }} onPress={(e) => { e.stopPropagation(); setSelected(x); }}

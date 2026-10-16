@@ -64,7 +64,7 @@ export function Button({ title, onPress, kind = 'primary', icon, loading, disabl
   const c = useColors();
   const { textScale } = useSettings();
   const bg = { primary: BRAND, soft: c.brandSoft, ghost: 'transparent', danger: c.bad, ok: c.ok, white: '#FFFFFF' }[kind];
-  const fg = { primary: '#fff', soft: c.brandInk, ghost: c.brand, danger: '#fff', ok: '#fff', white: '#9A3412' }[kind];
+  const fg = { primary: '#fff', soft: c.brandInk, ghost: c.brand, danger: '#fff', ok: '#fff', white: '#C4521C' }[kind];
   const off = disabled || loading;
   return (
     <Pressable

@@ -17,7 +17,7 @@ const config: ExpoConfig = {
   splash: {
     image: './assets/splash.png',
     resizeMode: 'contain',
-    backgroundColor: '#C2410C',
+    backgroundColor: '#EB692B',
   },
   ios: {
     bundleIdentifier: 'com.enginear.app',
@@ -38,7 +38,7 @@ const config: ExpoConfig = {
     versionCode: 1,
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
-      backgroundColor: '#C2410C',
+      backgroundColor: '#EB692B',
     },
     permissions: [
       'ACCESS_COARSE_LOCATION',
@@ -54,7 +54,7 @@ const config: ExpoConfig = {
     'expo-router',
     [
       'expo-splash-screen',
-      { image: './assets/splash.png', imageWidth: 220, backgroundColor: '#C2410C' },
+      { image: './assets/splash.png', imageWidth: 220, backgroundColor: '#EB692B' },
     ],
     [
       'expo-location',
@@ -74,7 +74,7 @@ const config: ExpoConfig = {
     ],
     [
       'expo-notifications',
-      { icon: './assets/notification-icon.png', color: '#F97316' },
+      { icon: './assets/notification-icon.png', color: '#EB692B' },
     ],
     [
       '@stripe/stripe-react-native',

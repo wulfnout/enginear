@@ -25,7 +25,7 @@ export function WrenchSvg() {
         <Path d="M5 50 a13 13 0 1 0 26 0 a13 13 0 1 0 -26 0 Z M11.5 50 a6.5 6.5 0 1 0 13 0 a6.5 6.5 0 1 0 -13 0 Z"
           fill="#C9D0D7" fillRule="evenodd" stroke="#9AA4AF" strokeWidth={1.5} />
         {/* orange grip */}
-        <Rect x={40} y={45} width={18} height={10} fill="#F97316" />
+        <Rect x={40} y={45} width={18} height={10} fill="#EB692B" />
       </G>
     </Svg>
   );

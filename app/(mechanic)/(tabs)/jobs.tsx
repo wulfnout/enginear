@@ -80,7 +80,7 @@ export default function Jobs() {
               initialRegion={homeRegion} showsUserLocation scrollEnabled zoomEnabled rotateEnabled={false}
               onPress={() => setSelected(null)}>
               {mechanic?.lat != null && mechanic?.lng != null ? (
-                <Circle center={center} radius={(mechanic.radius_miles ?? 10) * 1609} strokeColor={BRAND} fillColor="rgba(194,65,12,0.07)" />
+                <Circle center={center} radius={(mechanic.radius_miles ?? 10) * 1609} strokeColor={BRAND} fillColor="rgba(235,105,43,0.07)" />
               ) : null}
               {list.filter((r) => r.booking.lat != null).map((r) => (
                 <Marker key={r.booking.id} coordinate={{ latitude: r.booking.lat!, longitude: r.booking.lng! }} tracksViewChanges={false}

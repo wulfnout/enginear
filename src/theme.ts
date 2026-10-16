@@ -2,14 +2,14 @@ import { Platform } from 'react-native';
 
 /**
  * EngiNear colors: orange, gray and white.
- * `brand` is the orange used for buttons and highlights; HEADER is the graphite top bar.
+ * `brand` is the orange (#EB692B) used for the header, buttons and highlights.
  */
 export const palette = {
   light: {
-    brand: '#C2410C',
-    brandDeep: '#9A3412',
-    brandInk: '#7C2D12',
-    brandSoft: '#FFEDD5',
+    brand: '#EB692B',
+    brandDeep: '#C4521C',
+    brandInk: '#8A3510',
+    brandSoft: '#FDE9DD',
     bg: '#FFFFFF',
     surface: '#FFFFFF',
     text: '#1F2328',
@@ -25,8 +25,8 @@ export const palette = {
     onBrand: '#FFFFFF',
   },
   dark: {
-    brand: '#FB8C3C',
-    brandDeep: '#9A3412',
+    brand: '#F28A52',
+    brandDeep: '#C4521C',
     brandInk: '#FFD3B0',
     brandSoft: '#3A2112',
     bg: '#0F1114',
@@ -47,18 +47,18 @@ export const palette = {
 
 export type Colors = typeof palette.light;
 
-/** Buttons always use this orange (white text passes contrast) so the brand reads the same in dark mode. */
-export const BRAND = '#C2410C';
-export const BRAND_DEEP = '#9A3412';
+/** Header and buttons always use this orange so the brand reads the same in dark mode. */
+export const BRAND = '#EB692B';
+export const BRAND_DEEP = '#C4521C';
 /** Bright accent for decoration only (never behind text). */
-export const ACCENT = '#F97316';
+export const ACCENT = '#EB692B';
 /** Dark gray for hero panels and banners. */
 export const HEADER = '#2E3238';
 
 export const radius = { sm: 8, md: 12, lg: 16, pill: 999 };
 export const space = (n: number) => n * 4;
 
-export const AVATAR_COLORS = ['#C2410C', '#15803D', '#6D28D9', '#B91C1C', '#A16207', '#0E7490', '#334155', '#9D174D'];
+export const AVATAR_COLORS = ['#EB692B', '#15803D', '#6D28D9', '#B91C1C', '#A16207', '#0E7490', '#334155', '#9D174D'];
 export const colorFor = (id: string) => {
   let h = 0;
   for (const c of id) h = (h * 31 + c.charCodeAt(0)) | 0;

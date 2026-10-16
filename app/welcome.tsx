@@ -15,7 +15,7 @@ export default function Welcome() {
     <Pressable accessibilityRole="button" accessibilityLabel={title} onPress={() => router.push(href)}
       style={({ pressed }) => ({ backgroundColor: c.surface, borderRadius: 20, borderWidth: 1, borderColor: c.line, padding: 20,
         flexDirection: 'row', alignItems: 'center', gap: 14, opacity: pressed ? 0.9 : 1,
-        shadowColor: '#9A3412', shadowOpacity: 0.12, shadowRadius: 12, shadowOffset: { width: 0, height: 6 }, elevation: 3 })}>
+        shadowColor: '#C4521C', shadowOpacity: 0.12, shadowRadius: 12, shadowOffset: { width: 0, height: 6 }, elevation: 3 })}>
       <View style={{ width: 58, height: 58, borderRadius: 14, backgroundColor: filled ? BRAND : c.brandSoft, alignItems: 'center', justifyContent: 'center' }}>
         <Ionicons name={icon} size={30} color={filled ? '#fff' : BRAND} />
       </View>
@@ -34,7 +34,7 @@ export default function Welcome() {
             <MascotMark size={54} />
             <T v="h2" color="#fff">EngiNear</T>
           </Row>
-          <T v="h1" color="#fff" style={{ fontSize: 33, lineHeight: 39, marginTop: 18 }}>A mechanic near you.{'\n'}<T v="h1" color="#FFE0C7" style={{ fontSize: 33, lineHeight: 39 }}>No surprises.</T></T>
+          <T v="h1" color="#fff" style={{ fontSize: 33, lineHeight: 39, marginTop: 18 }}>A mechanic near you.{'\n'}<T v="h1" color="#FFF1E8" style={{ fontSize: 33, lineHeight: 39 }}>No surprises.</T></T>
           <T color="#fff" style={{ opacity: 0.94, fontSize: 17 }}>Book a background-checked mechanic who comes to you or works from a shop. You approve every dollar before it’s added.</T>
         </View>
       </SafeAreaView>
