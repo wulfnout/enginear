@@ -70,9 +70,11 @@ export default function Find() {
     : { latitude: 39.5, longitude: -98.35 };
   const region = client?.lat != null ? { ...center, latitudeDelta: 0.18, longitudeDelta: 0.18 } : USA_REGION;
 
+  // The map needs the room, so its header is just the List/Map switch and filters.
+  const isMap = view === 'map';
   const header = (
-    <View style={{ gap: 10, paddingTop: 12 }}>
-      <View style={{ paddingHorizontal: 16 }}><FirstPost audience="client" /></View>
+    <View style={{ gap: 10, paddingTop: isMap ? 8 : 12, paddingBottom: isMap ? 8 : 0 }}>
+      {!isMap ? <View style={{ paddingHorizontal: 16 }}><FirstPost audience="client" /></View> : null}
       {draft ? (
         <View style={{ marginHorizontal: 16, backgroundColor: c.brandSoft, borderRadius: 12, padding: 12, flexDirection: 'row', alignItems: 'center', gap: 10 }}>
           <Ionicons name="calendar" size={20} color={c.brandInk} />
@@ -81,7 +83,7 @@ export default function Find() {
           <Pressable accessibilityLabel="Clear request" onPress={() => setDraft(null)} hitSlop={8}><Ionicons name="close" size={22} color={c.brandInk} /></Pressable>
         </View>
       ) : null}
-      {draft && draft.place !== 'shop' ? (
+      {draft && draft.place !== 'shop' && !isMap ? (
         <Pressable accessibilityRole="button" onPress={() => router.push('/book')}
           style={{ marginHorizontal: 16, backgroundColor: c.surface, borderRadius: 14, borderWidth: 1, borderColor: c.line, padding: 14, flexDirection: 'row', alignItems: 'center', gap: 12 }}>
           <Ionicons name="people-outline" size={26} color={c.brand} />
@@ -136,7 +138,7 @@ export default function Find() {
       ) : (
         <View style={{ flex: 1 }}>
           {header}
-          <View style={{ flex: 1, marginTop: 10 }}>
+          <View style={{ flex: 1 }}>
             <MapView
               ref={mapRef}
               style={{ flex: 1 }}

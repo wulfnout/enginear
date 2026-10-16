@@ -55,10 +55,10 @@ export function WrenchSvg() {
   );
 }
 
-/** Dark rounded tile holding the wrench, used in headers. */
+/** White rounded tile holding the wrench, used on the orange headers. */
 export function MascotMark({ size = 34 }: { size?: number }) {
   return (
-    <View style={{ width: size, height: size, borderRadius: size * 0.29, backgroundColor: '#2B323B', borderWidth: 1.5, borderColor: '#F97316',
+    <View style={{ width: size, height: size, borderRadius: size * 0.29, backgroundColor: '#FFFFFF',
       alignItems: 'center', justifyContent: 'center' }}>
       <Mascot size={size * 0.8} />
     </View>

@@ -3,13 +3,12 @@ import { router } from 'expo-router';
 import React from 'react';
 import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Sparks } from '@/components/Motion';
 import { MascotMark } from '@/components/Mascot';
 import { Button, Card, Row, T } from '@/components/ui';
 import { firstName } from '@/lib/format';
 import { useAuth } from '@/providers/AuthProvider';
 import { useColors } from '@/providers/SettingsProvider';
-import { ACCENT, HEADER } from '@/theme';
+import { BRAND } from '@/theme';
 
 /** Wonolo-style welcome: explain how it works in three steps, then start setup. */
 export default function MechanicIntro() {
@@ -22,8 +21,7 @@ export default function MechanicIntro() {
   ] as const;
   return (
     <ScrollView style={{ backgroundColor: c.bg }} contentContainerStyle={{ paddingBottom: 32 }}>
-      <SafeAreaView edges={['top']} style={{ backgroundColor: HEADER, overflow: 'hidden', borderBottomWidth: 4, borderBottomColor: ACCENT }}>
-        <Sparks count={8} />
+      <SafeAreaView edges={['top']} style={{ backgroundColor: BRAND, overflow: 'hidden' }}>
         <View style={{ padding: 20, paddingBottom: 56, gap: 10 }}>
           <Row>
             <MascotMark size={54} />

@@ -4,11 +4,10 @@ import React from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FirstPost } from '@/components/FirstPost';
-import { Sparks } from '@/components/Motion';
 import { MascotMark } from '@/components/Mascot';
 import { Card, Row, T } from '@/components/ui';
 import { useColors } from '@/providers/SettingsProvider';
-import { ACCENT, BRAND, HEADER } from '@/theme';
+import { BRAND } from '@/theme';
 
 export default function Welcome() {
   const c = useColors();
@@ -29,14 +28,13 @@ export default function Welcome() {
   );
   return (
     <ScrollView style={{ backgroundColor: c.bg }} contentContainerStyle={{ paddingBottom: 32 }}>
-      <SafeAreaView edges={['top']} style={{ backgroundColor: HEADER, overflow: 'hidden', borderBottomWidth: 4, borderBottomColor: ACCENT }}>
-        <Sparks count={9} />
+      <SafeAreaView edges={['top']} style={{ backgroundColor: BRAND, overflow: 'hidden' }}>
         <View style={{ padding: 20, paddingBottom: 72, gap: 10 }}>
           <Row>
             <MascotMark size={54} />
             <T v="h2" color="#fff">EngiNear</T>
           </Row>
-          <T v="h1" color="#fff" style={{ fontSize: 33, lineHeight: 39, marginTop: 18 }}>A mechanic near you.{'\n'}<T v="h1" color={ACCENT} style={{ fontSize: 33, lineHeight: 39 }}>No surprises.</T></T>
+          <T v="h1" color="#fff" style={{ fontSize: 33, lineHeight: 39, marginTop: 18 }}>A mechanic near you.{'\n'}<T v="h1" color="#FFE0C7" style={{ fontSize: 33, lineHeight: 39 }}>No surprises.</T></T>
           <T color="#fff" style={{ opacity: 0.94, fontSize: 17 }}>Book a background-checked mechanic who comes to you or works from a shop. You approve every dollar before it’s added.</T>
         </View>
       </SafeAreaView>

@@ -1,5 +1,7 @@
+import { Platform } from 'react-native';
+
 /**
- * EngiNear colors: graphite and safety orange.
+ * EngiNear colors: orange, gray and white.
  * `brand` is the orange used for buttons and highlights; HEADER is the graphite top bar.
  */
 export const palette = {
@@ -8,11 +10,11 @@ export const palette = {
     brandDeep: '#9A3412',
     brandInk: '#7C2D12',
     brandSoft: '#FFEDD5',
-    bg: '#F3F3F1',
+    bg: '#FFFFFF',
     surface: '#FFFFFF',
-    text: '#16191D',
-    muted: '#565D66',
-    line: '#DADCDF',
+    text: '#1F2328',
+    muted: '#5F6670',
+    line: '#E2E4E8',
     ok: '#15803D',
     okSoft: '#E4F4E9',
     warn: '#A16207',
@@ -50,8 +52,8 @@ export const BRAND = '#C2410C';
 export const BRAND_DEEP = '#9A3412';
 /** Bright accent for decoration only (never behind text). */
 export const ACCENT = '#F97316';
-/** Graphite top bar and hero panels. */
-export const HEADER = '#1D232B';
+/** Dark gray for hero panels and banners. */
+export const HEADER = '#2E3238';
 
 export const radius = { sm: 8, md: 12, lg: 16, pill: 999 };
 export const space = (n: number) => n * 4;
@@ -62,3 +64,10 @@ export const colorFor = (id: string) => {
   for (const c of id) h = (h * 31 + c.charCodeAt(0)) | 0;
   return AVATAR_COLORS[Math.abs(h) % AVATAR_COLORS.length];
 };
+
+/** App font: Avenir Next on iPhone (bold, rounded, retail-style), the system sans-serif on Android. */
+export const FONT = Platform.select({ ios: 'Avenir Next', android: 'sans-serif', default: undefined });
+/** Light gray band under the header (like a store app's department strip). */
+export const BAND = '#F2F3F5';
+/** Light gray for card backgrounds that sit on white. */
+export const GRAY_SOFT = '#F6F7F8';

@@ -11,21 +11,21 @@ import type { IconName } from '@/lib/constants';
 import { initials } from '@/lib/format';
 import { useAuth } from '@/providers/AuthProvider';
 import { useColors, useSettings } from '@/providers/SettingsProvider';
-import { ACCENT, BRAND, HEADER, colorFor, radius } from '@/theme';
-import { Rise, Sparks } from './Motion';
+import { BRAND, FONT, colorFor, radius } from '@/theme';
+import { Rise } from './Motion';
 import { Mascot, MascotMark } from './Mascot';
 
 /* ---------- Text ---------- */
 type Variant = 'h1' | 'h2' | 'h3' | 'body' | 'small' | 'tiny' | 'label' | 'price';
 const sizes: Record<Variant, { fontSize: number; fontWeight: TextStyle['fontWeight']; lineHeight?: number }> = {
-  h1: { fontSize: 27, fontWeight: '800', lineHeight: 33 },
-  h2: { fontSize: 20, fontWeight: '800', lineHeight: 26 },
+  h1: { fontSize: 28, fontWeight: '800', lineHeight: 34 },
+  h2: { fontSize: 22, fontWeight: '800', lineHeight: 28 },
   h3: { fontSize: 17, fontWeight: '700', lineHeight: 22 },
-  body: { fontSize: 16, fontWeight: '400', lineHeight: 23 },
-  small: { fontSize: 14, fontWeight: '400', lineHeight: 20 },
-  tiny: { fontSize: 13, fontWeight: '400', lineHeight: 18 },
+  body: { fontSize: 16, fontWeight: '500', lineHeight: 23 },
+  small: { fontSize: 14, fontWeight: '500', lineHeight: 20 },
+  tiny: { fontSize: 13, fontWeight: '500', lineHeight: 18 },
   label: { fontSize: 15, fontWeight: '700' },
-  price: { fontSize: 19, fontWeight: '800' },
+  price: { fontSize: 22, fontWeight: '800' },
 };
 
 export function T({ v = 'body', color, muted, bold, center, style, children, numberOfLines, selectable }: {
@@ -41,6 +41,7 @@ export function T({ v = 'body', color, muted, bold, center, style, children, num
       selectable={selectable}
       maxFontSizeMultiplier={1.6}
       style={[{
+        fontFamily: FONT,
         fontSize: s.fontSize * textScale,
         lineHeight: s.lineHeight ? s.lineHeight * textScale : undefined,
         fontWeight: bold ? '700' : s.fontWeight,
@@ -82,7 +83,7 @@ export function Button({ title, onPress, kind = 'primary', icon, loading, disabl
       {loading ? <ActivityIndicator color={fg} /> : (
         <>
           {icon ? <Ionicons name={icon} size={20 * textScale} color={fg} /> : null}
-          {title ? <Text maxFontSizeMultiplier={1.4} style={{ color: fg, fontWeight: '700', fontSize: (small ? 15 : 16) * textScale, textAlign: 'center' }}>{title}</Text> : null}
+          {title ? <Text maxFontSizeMultiplier={1.4} style={{ fontFamily: FONT, color: fg, fontWeight: '700', fontSize: (small ? 15 : 16.5) * textScale, textAlign: 'center' }}>{title}</Text> : null}
         </>
       )}
     </Pressable>
@@ -92,8 +93,8 @@ export function Button({ title, onPress, kind = 'primary', icon, loading, disabl
 export function LinkButton({ title, onPress, color }: { title: string; onPress: () => void; color?: string }) {
   const c = useColors();
   return (
-    <Pressable accessibilityRole="button" onPress={onPress} hitSlop={10} style={{ paddingVertical: 6 }}>
-      <T v="label" color={color ?? c.brand}>{title}</T>
+    <Pressable accessibilityRole="link" onPress={onPress} hitSlop={10} style={{ paddingVertical: 6 }}>
+      <T v="label" color={color ?? c.text} style={{ textDecorationLine: 'underline' }}>{title}</T>
     </Pressable>
   );
 }
@@ -133,26 +134,25 @@ export function Footer({ children }: { children: React.ReactNode }) {
   );
 }
 
-/** Graphite top bar with an orange edge. Used by every main screen so the brand and Help are always in the same place. */
+/** Solid orange top bar. Used by every main screen so the brand and Help are always in the same place. */
 export function TopHeader({ title, children, back, right, showActions = true }: {
   title: string; children?: React.ReactNode; back?: boolean; right?: React.ReactNode; showActions?: boolean;
 }) {
   const { textScale } = useSettings();
   return (
-    <SafeAreaView edges={['top']} style={{ backgroundColor: HEADER, overflow: 'hidden', borderBottomWidth: 3, borderBottomColor: ACCENT }}>
-      <Sparks count={6} />
+    <SafeAreaView edges={['top']} style={{ backgroundColor: BRAND, overflow: 'hidden' }}>
       <View style={{ paddingHorizontal: 16, paddingTop: 6, paddingBottom: 12, gap: 10 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', minHeight: 48, gap: 6 }}>
           {back ? (
             <Pressable accessibilityRole="button" accessibilityLabel="Back" onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
               hitSlop={10} style={{ flexDirection: 'row', alignItems: 'center', paddingRight: 8 }}>
               <Ionicons name="chevron-back" size={26} color="#fff" />
-              <Text style={{ color: '#fff', fontWeight: '700', fontSize: 16 * textScale }}>Back</Text>
+              <Text style={{ fontFamily: FONT, color: '#fff', fontWeight: '700', fontSize: 16 * textScale }}>Back</Text>
             </Pressable>
           ) : (
             <View style={{ marginRight: 4 }}><MascotMark size={34} /></View>
           )}
-          <Text numberOfLines={1} maxFontSizeMultiplier={1.4} style={{ flex: 1, color: '#fff', fontWeight: '800', fontSize: (back ? 19 : 20) * textScale }}>{title}</Text>
+          <Text numberOfLines={1} maxFontSizeMultiplier={1.4} style={{ flex: 1, fontFamily: FONT, color: '#fff', fontWeight: '800', fontSize: (back ? 19 : 21) * textScale }}>{title}</Text>
           {right}
           {showActions ? <HeaderActions /> : null}
         </View>
@@ -169,8 +169,8 @@ function HeaderActions() {
     <Pressable accessibilityRole="button" accessibilityLabel={label} onPress={onPress} hitSlop={4}
       style={{ alignItems: 'center', minWidth: 52, paddingVertical: 2 }}>
       <Ionicons name={icon} size={23} color="#fff" />
-      <Text maxFontSizeMultiplier={1.2} style={{ color: '#fff', fontSize: 11.5 * Math.min(textScale, 1.15), fontWeight: '700' }}>{label}</Text>
-      {dot ? <View style={{ position: 'absolute', top: 0, right: 12, width: 10, height: 10, borderRadius: 5, backgroundColor: ACCENT, borderWidth: 2, borderColor: HEADER }} /> : null}
+      <Text maxFontSizeMultiplier={1.2} style={{ fontFamily: FONT, color: '#fff', fontSize: 11.5 * Math.min(textScale, 1.15), fontWeight: '700' }}>{label}</Text>
+      {dot ? <View style={{ position: 'absolute', top: 0, right: 12, width: 10, height: 10, borderRadius: 5, backgroundColor: '#FFC53D', borderWidth: 2, borderColor: BRAND }} /> : null}
     </Pressable>
   );
   return (
@@ -182,13 +182,13 @@ function HeaderActions() {
   );
 }
 
-export function SearchBar({ value, onChangeText, onSubmit, placeholder }: {
-  value: string; onChangeText: (t: string) => void; onSubmit?: () => void; placeholder: string;
+export function SearchBar({ value, onChangeText, onSubmit, placeholder, right }: {
+  value: string; onChangeText: (t: string) => void; onSubmit?: () => void; placeholder: string; right?: React.ReactNode;
 }) {
   const { textScale } = useSettings();
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', borderRadius: radius.pill, height: 50, paddingLeft: 16, paddingRight: 6, gap: 8 }}>
-      <Ionicons name="search" size={20} color="#565D66" />
+    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', borderRadius: radius.pill, height: 48, paddingLeft: 18, paddingRight: 8, gap: 10 }}>
+      <Ionicons name="search" size={22} color="#16191D" />
       <TextInput
         value={value}
         onChangeText={onChangeText}
@@ -197,13 +197,13 @@ export function SearchBar({ value, onChangeText, onSubmit, placeholder }: {
         placeholderTextColor="#6B7280"
         returnKeyType="search"
         accessibilityLabel={placeholder}
-        style={{ flex: 1, fontSize: 16 * textScale, color: '#16191D' }}
+        style={{ flex: 1, fontFamily: FONT, fontWeight: '500', fontSize: 17 * textScale, color: '#16191D' }}
       />
       {value ? (
         <Pressable accessibilityLabel="Clear search" onPress={() => { onChangeText(''); }} hitSlop={8}>
           <Ionicons name="close-circle" size={22} color="#6B7A90" />
         </Pressable>
-      ) : null}
+      ) : right ?? null}
     </View>
   );
 }
@@ -212,7 +212,7 @@ export function Card({ children, style, onPress, accessibilityLabel }: {
   children: React.ReactNode; style?: StyleProp<ViewStyle>; onPress?: () => void; accessibilityLabel?: string;
 }) {
   const c = useColors();
-  const base: ViewStyle = { backgroundColor: c.surface, borderRadius: radius.lg, borderWidth: 1, borderColor: c.line, padding: 16, gap: 10 };
+  const base: ViewStyle = { backgroundColor: c.surface, borderRadius: 18, borderWidth: 1, borderColor: c.line, padding: 16, gap: 10 };
   if (onPress) {
     return (
       <Pressable accessibilityRole="button" accessibilityLabel={accessibilityLabel} onPress={onPress}
@@ -242,11 +242,11 @@ export function Chip({ label, on, onPress, icon }: { label: string; on?: boolean
   const { textScale } = useSettings();
   return (
     <Pressable accessibilityRole="button" accessibilityState={{ selected: !!on }} onPress={onPress}
-      style={{ minHeight: 42, paddingHorizontal: 16, borderRadius: radius.pill, borderWidth: 1.5,
+      style={{ minHeight: 42, paddingHorizontal: 18, borderRadius: radius.pill, borderWidth: on ? 2 : 1,
         borderColor: on ? c.brand : c.line, backgroundColor: on ? c.brandSoft : c.surface,
         flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-      {icon ? <Ionicons name={icon} size={16} color={on ? c.brandInk : c.muted} /> : null}
-      <Text maxFontSizeMultiplier={1.4} style={{ fontWeight: '600', fontSize: 14.5 * textScale, color: on ? c.brandInk : c.text }}>{label}</Text>
+      {icon ? <Ionicons name={icon} size={17} color={on ? c.brandInk : c.text} /> : null}
+      <Text maxFontSizeMultiplier={1.4} style={{ fontFamily: FONT, fontWeight: on ? '700' : '600', fontSize: 15 * textScale, color: on ? c.brandInk : c.text }}>{label}</Text>
     </Pressable>
   );
 }
@@ -286,7 +286,7 @@ export function Avatar({ name, url, id, size = 56 }: { name?: string | null; url
   if (url) return <Image source={{ uri: url }} accessibilityLabel={`${name ?? 'Profile'} photo`} style={{ width: size, height: size, borderRadius: size / 2 }} />;
   return (
     <View accessibilityLabel={name ?? 'Profile'} style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: colorFor(id ?? name ?? '?'), alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={{ color: '#fff', fontWeight: '800', fontSize: size / 2.8 }}>{initials(name)}</Text>
+      <Text style={{ fontFamily: FONT, color: '#fff', fontWeight: '800', fontSize: size / 2.8 }}>{initials(name)}</Text>
     </View>
   );
 }
@@ -303,7 +303,7 @@ export function Field({ label, hint, error, ...props }: TextInputProps & { label
         {...props}
         style={[{ minHeight: props.multiline ? 100 : 52, borderWidth: 1.5, borderColor: error ? c.bad : c.line, borderRadius: 12,
           paddingHorizontal: 14, paddingVertical: props.multiline ? 12 : 0, backgroundColor: c.surface, color: c.text,
-          fontSize: 16 * textScale, textAlignVertical: props.multiline ? 'top' : 'center' }, props.style]}
+          fontFamily: FONT, fontWeight: '500', fontSize: 16 * textScale, textAlignVertical: props.multiline ? 'top' : 'center' }, props.style]}
       />
       {error ? <T v="tiny" color={c.bad}>{error}</T> : hint ? <T v="tiny" muted>{hint}</T> : null}
     </View>

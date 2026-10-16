@@ -44,8 +44,8 @@ export default function Jobs() {
   const homeRegion = mechanic?.lat != null ? { ...center, latitudeDelta: zoom, longitudeDelta: zoom } : USA_REGION;
 
   const header = (
-    <View style={{ gap: 10, paddingTop: 12 }}>
-      {mechanic && !mechanic.onboarding_complete ? <View style={{ paddingHorizontal: 16, gap: 10 }}><FirstPost audience="mechanic" /><Notice text="Finish your setup in Me › Work preferences to accept jobs." /></View> : null}
+    <View style={{ gap: 10, paddingTop: view === 'map' ? 8 : 12, paddingBottom: view === 'map' ? 8 : 0 }}>
+      {mechanic && !mechanic.onboarding_complete && view === 'list' ? <View style={{ paddingHorizontal: 16, gap: 10 }}><FirstPost audience="mechanic" /><Notice text="Finish your setup in Me › Work preferences to accept jobs." /></View> : null}
       <View style={{ paddingHorizontal: 16 }}>
         <Segmented value={view} onChange={(v) => { setView(v); setSelected(null); }} options={[{ value: 'list', label: 'List', icon: 'list' }, { value: 'map', label: 'Map', icon: 'map' }]} />
       </View>
@@ -75,7 +75,7 @@ export default function Jobs() {
       ) : (
         <View style={{ flex: 1 }}>
           {header}
-          <View style={{ flex: 1, marginTop: 10 }}>
+          <View style={{ flex: 1 }}>
             <MapView ref={mapRef} style={{ flex: 1 }} provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : PROVIDER_DEFAULT}
               initialRegion={homeRegion} showsUserLocation scrollEnabled zoomEnabled rotateEnabled={false}
               onPress={() => setSelected(null)}>

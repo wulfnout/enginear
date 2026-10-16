@@ -13,7 +13,7 @@ import { firstName, longDate, timeOf } from '@/lib/format';
 import { sortMechanics } from '@/lib/match';
 import { useAuth } from '@/providers/AuthProvider';
 import { useColors } from '@/providers/SettingsProvider';
-import { ACCENT, HEADER } from '@/theme';
+import { BAND, BRAND, HEADER } from '@/theme';
 
 const CATEGORIES = ['Oil change', 'Diagnostics', 'Brakes', 'Battery', 'Tires & rotation', 'AC & heating', 'Electrical', 'Pre-purchase inspection'];
 
@@ -40,33 +40,63 @@ export default function Home() {
   return (
     <View style={{ flex: 1, backgroundColor: c.bg }}>
       <TopHeader title="EngiNear">
-        <SearchBar value={q} onChangeText={setQ} placeholder="Search mechanics or services"
-          onSubmit={() => router.push({ pathname: '/find', params: { q } })} />
+        <SearchBar value={q} onChangeText={setQ} placeholder="Search EngiNear"
+          onSubmit={() => router.push({ pathname: '/find', params: { q } })}
+          right={
+            <Pressable accessibilityRole="button" accessibilityLabel="My garage" onPress={() => router.push('/vehicles')} hitSlop={8}>
+              <Ionicons name="car-sport-outline" size={26} color="#1F2328" />
+            </Pressable>
+          } />
+        {/* "Pickup or delivery?" style row: where the car is */}
+        <Pressable accessibilityRole="button" onPress={() => router.push('/address')} style={{ flexDirection: 'row', alignItems: 'center', gap: 10, minHeight: 40 }}>
+          <View style={{ width: 34, height: 34, borderRadius: 17, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center' }}>
+            <Ionicons name="location" size={18} color={BRAND} />
+          </View>
+          <T v="small" color="#fff" style={{ fontSize: 16 }}>Come to me or shop?</T>
+          <T v="small" bold color="#fff" numberOfLines={1} style={{ flex: 1, textAlign: 'right', fontSize: 16 }}>{client?.address ?? 'Add your address'}</T>
+          <Ionicons name="chevron-down" size={22} color="#fff" />
+        </Pressable>
       </TopHeader>
-      <Pressable accessibilityRole="button" onPress={() => router.push('/address')}
-        style={{ backgroundColor: '#2B323B', paddingHorizontal: 16, paddingVertical: 10, flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-        <Ionicons name="location-outline" size={18} color={ACCENT} />
-        <T v="small" color="#fff" numberOfLines={1} style={{ flex: 1 }}>Mobile service at <T v="small" bold color="#fff">{client?.address ?? 'Add your address'}</T></T>
-        <T v="tiny" bold color="#fff" style={{ textDecorationLine: 'underline' }}>Change</T>
-      </Pressable>
+      {/* Gray strip of quick links, like store departments */}
+      <View style={{ backgroundColor: BAND, paddingVertical: 10 }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10, paddingHorizontal: 16 }}>
+          {([
+            ['grid-outline', 'All services', () => { setDraft(null); router.push({ pathname: '/find', params: { view: 'list' } }); }],
+            ['map-outline', 'Map', () => { setDraft(null); router.push({ pathname: '/find', params: { view: 'map' } }); }],
+            ['car-sport-outline', 'Comes to me', () => { setDraft(null); router.push({ pathname: '/find', params: { view: 'list' } }); }],
+            ['business-outline', 'Shops', () => { setDraft(null); router.push({ pathname: '/find', params: { view: 'map' } }); }],
+            ['car-outline', 'My garage', () => router.push('/vehicles')],
+          ] as const).map(([icon, label, go], i) => (
+            <Pressable key={label} accessibilityRole="button" onPress={go}
+              style={{ flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: '#fff', borderRadius: 999, paddingHorizontal: 18, minHeight: 44 }}>
+              <Ionicons name={icon} size={20} color="#1F2328" />
+              <T v="label" style={{ fontWeight: i === 0 ? '800' : '600' }}>{label}</T>
+            </Pressable>
+          ))}
+        </ScrollView>
+      </View>
 
       <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} />} contentContainerStyle={{ paddingBottom: 32, gap: 12 }}>
         <View style={{ padding: 16, paddingBottom: 0, gap: 12 }}>
           <FirstPost audience="client" />
-          <Card style={{ gap: 14, padding: 20 }}>
-            <View>
-              <T v="small" bold muted>Hi {firstName(profile?.full_name)}</T>
-              <T v="h2" style={{ fontSize: 23 }}>What’s your car need?</T>
-              <T v="small" muted>Pick a service and a time. We’ll show mechanics who come to you and shops nearby.</T>
+          <Pressable accessibilityRole="button" accessibilityLabel="Book a mechanic" onPress={() => router.push('/quick-book')}
+            style={{ borderRadius: 18, backgroundColor: HEADER, padding: 22, minHeight: 190, overflow: 'hidden', justifyContent: 'space-between' }}>
+            <View style={{ position: 'absolute', right: -30, bottom: -30, opacity: 0.18 }}>
+              <Ionicons name="construct" size={190} color="#fff" />
             </View>
-            <Button icon="construct" title="Book a mechanic" onPress={() => router.push('/quick-book')} />
-            <Row gap={10}>
-              <Button small kind="soft" icon="list" title="Browse" style={{ flex: 1 }} onPress={() => { setDraft(null); router.push({ pathname: '/find', params: { view: 'list' } }); }} />
-              <Button small kind="soft" icon="map" title="Map" style={{ flex: 1 }} onPress={() => { setDraft(null); router.push({ pathname: '/find', params: { view: 'map' } }); }} />
-            </Row>
-          </Card>
+            <View style={{ gap: 4 }}>
+              <T v="label" color="#fff">Hi {firstName(profile?.full_name)}</T>
+              <T v="h1" color="#fff" style={{ fontSize: 30, lineHeight: 36 }}>What’s your{'\n'}car need?</T>
+            </View>
+            <View style={{ gap: 12 }}>
+              <T color="#fff" style={{ opacity: 0.9 }}>Mechanics who come to you, and shops nearby.</T>
+              <View style={{ alignSelf: 'flex-start', backgroundColor: BRAND, borderRadius: 999, paddingHorizontal: 20, paddingVertical: 11 }}>
+                <T v="label" color="#fff">Book a mechanic</T>
+              </View>
+            </View>
+          </Pressable>
 
-          <SectionTitle title="My garage" action={data?.vehicles.length ? 'Manage' : undefined} onAction={() => router.push('/vehicles')} />
+          <SectionTitle title="My garage" action={data?.vehicles.length ? 'View all' : undefined} onAction={() => router.push('/vehicles')} />
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }} style={{ marginHorizontal: -16 }}>
             <View style={{ width: 6 }} />
             {(data?.vehicles ?? []).map((v) => (
@@ -130,7 +160,7 @@ export default function Home() {
             ))}
           </View>
 
-          <SectionTitle title="Picked for you" action="See all" onAction={() => router.push('/find')} />
+          <SectionTitle title="Top picks for you" action="View all" onAction={() => router.push('/find')} />
           <T v="small" muted style={{ marginTop: -8 }}>Matched to your answers and location</T>
         </View>
 
@@ -154,12 +184,12 @@ export default function Home() {
         ) : null}
 
         <View style={{ paddingHorizontal: 16, gap: 12, marginTop: 8 }}>
-          <View style={{ borderRadius: 16, backgroundColor: HEADER, borderLeftWidth: 5, borderLeftColor: ACCENT, padding: 18, flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-            <View style={{ flex: 1 }}>
-              <T v="h3" color="#fff">You approve every dollar</T>
-              <T v="small" color="#fff" style={{ opacity: 0.92 }}>Found something else wrong? Your mechanic sends a parts and labor quote in the app. Nothing is added unless you tap Approve.</T>
+          <View style={{ borderRadius: 18, backgroundColor: BAND, padding: 18, flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+            <View style={{ flex: 1, gap: 4 }}>
+              <T v="h2">You approve every dollar</T>
+              <T v="small" muted>Found something else wrong? Your mechanic sends a parts and labor quote in the app. Nothing is added unless you tap Approve.</T>
             </View>
-            <Ionicons name="checkmark-done-circle" size={40} color={ACCENT} />
+            <Ionicons name="checkmark-done-circle" size={44} color={BRAND} />
           </View>
           <Card style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
             <View style={{ width: 46, height: 46, borderRadius: 12, backgroundColor: c.okSoft, alignItems: 'center', justifyContent: 'center' }}>
