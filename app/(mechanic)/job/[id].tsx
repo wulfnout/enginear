@@ -53,12 +53,12 @@ export default function JobDetail() {
         <Button style={{ flex: 1 }} title={`Accept${b.pricing === 'flat' ? ` for ${money0(b.mechanic_payout_cents)}` : ''}`} loading={busy} disabled={!mechanic?.onboarding_complete} onPress={accept} />
       </Footer>}>
       <Card>
-        <Row style={{ justifyContent: 'space-between' }}>
-          <View>
+        <Row style={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <View style={{ flex: 1 }}>
             <T v="h1">{money(b.mechanic_payout_cents)}</T>
             <T v="small" muted>{b.pricing === 'flat' ? 'Your pay for the job, plus tips' : 'Your pay to start. Approved quotes add to it (100% of parts, 90% of labor).'}</T>
           </View>
-          {b.status === 'requested' ? <Pill tone="warn" label="Requested you" /> : null}
+          {b.status === 'requested' ? <View style={{ flexShrink: 0, paddingTop: 6 }}><Pill tone="warn" icon="person" label="Requested you" /></View> : null}
         </Row>
       </Card>
       <Card>
