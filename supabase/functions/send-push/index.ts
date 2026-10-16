@@ -1,10 +1,10 @@
 // Sends a phone push notification for every new row in public.notifications.
-// Set up in Supabase: Database > Webhooks > new webhook on INSERT into public.notifications,
-// type "Supabase Edge Function" -> send-push, with header  x-push-secret: <SEND_PUSH_SECRET>.
+// Called by the notifications_push database trigger, which sends the secret kept in Vault.
 import { admin } from '../_shared/util.ts';
 
 Deno.serve(async (req) => {
-  if (req.headers.get('x-push-secret') !== Deno.env.get('SEND_PUSH_SECRET')) return new Response('Forbidden', { status: 403 });
+  const { data: ok } = await admin.rpc('check_push_secret', { p_secret: req.headers.get('x-push-secret') ?? '' });
+  if (ok !== true) return new Response('Forbidden', { status: 403 });
   const payload = await req.json();
   const n = payload.record;
   if (!n?.user_id) return new Response('ignored');
