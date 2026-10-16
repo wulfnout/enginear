@@ -74,7 +74,8 @@ export function Button({ title, onPress, kind = 'primary', icon, loading, disabl
       disabled={off}
       onPress={() => { Haptics.selectionAsync().catch(() => {}); onPress?.(); }}
       style={({ pressed }) => [{
-        minHeight: small ? 44 : 52, paddingHorizontal: title ? (small ? 16 : 22) : 12, borderRadius: radius.pill,
+        minHeight: small ? 44 : 52, paddingHorizontal: title ? (small ? 14 : 20) : 12, paddingVertical: 6, borderRadius: radius.pill,
+        flexShrink: 1, maxWidth: '100%',
         backgroundColor: bg, borderWidth: kind === 'ghost' ? 2 : 0, borderColor: c.brand,
         flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8,
         opacity: off ? 0.45 : pressed ? 0.88 : 1, transform: [{ scale: pressed ? 0.97 : 1 }],
@@ -83,7 +84,7 @@ export function Button({ title, onPress, kind = 'primary', icon, loading, disabl
       {loading ? <ActivityIndicator color={fg} /> : (
         <>
           {icon ? <Ionicons name={icon} size={20 * textScale} color={fg} /> : null}
-          {title ? <Text maxFontSizeMultiplier={1.4} style={{ fontFamily: FONT, color: fg, fontWeight: '700', fontSize: (small ? 15 : 16.5) * textScale, textAlign: 'center' }}>{title}</Text> : null}
+          {title ? <Text maxFontSizeMultiplier={1.3} numberOfLines={2} adjustsFontSizeToFit minimumFontScale={0.8} style={{ flexShrink: 1,  fontFamily: FONT, color: fg, fontWeight: '700', fontSize: (small ? 15 : 16.5) * textScale, textAlign: 'center' }}>{title}</Text> : null}
         </>
       )}
     </Pressable>
@@ -244,9 +245,9 @@ export function Chip({ label, on, onPress, icon }: { label: string; on?: boolean
     <Pressable accessibilityRole="button" accessibilityState={{ selected: !!on }} onPress={onPress}
       style={{ minHeight: 42, paddingHorizontal: 18, borderRadius: radius.pill, borderWidth: on ? 2 : 1,
         borderColor: on ? c.brand : c.line, backgroundColor: on ? c.brandSoft : c.surface,
-        flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+        flexDirection: 'row', alignItems: 'center', gap: 6, maxWidth: '100%' }}>
       {icon ? <Ionicons name={icon} size={17} color={on ? c.brandInk : c.text} /> : null}
-      <Text maxFontSizeMultiplier={1.4} style={{ fontFamily: FONT, fontWeight: on ? '700' : '600', fontSize: 15 * textScale, color: on ? c.brandInk : c.text }}>{label}</Text>
+      <Text maxFontSizeMultiplier={1.4} numberOfLines={1} style={{ fontFamily: FONT, fontWeight: on ? '700' : '600', fontSize: 15 * textScale, flexShrink: 1, color: on ? c.brandInk : c.text }}>{label}</Text>
     </Pressable>
   );
 }
@@ -263,9 +264,9 @@ export function Pill({ label, tone = 'brand', icon }: { label: string; tone?: 'b
   const c = useColors();
   const map = { brand: [c.brandSoft, c.brandInk], ok: [c.okSoft, c.ok], warn: [c.warnSoft, c.warn], bad: [c.badSoft, c.bad] }[tone];
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: map[0], paddingHorizontal: 9, paddingVertical: 3, borderRadius: radius.pill, alignSelf: 'flex-start' }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: map[0], paddingHorizontal: 9, paddingVertical: 3, borderRadius: radius.pill, alignSelf: 'flex-start', maxWidth: '100%' }}>
       {icon ? <Ionicons name={icon} size={14} color={map[1]} /> : null}
-      <T v="tiny" bold color={map[1]}>{label}</T>
+      <T v="tiny" bold color={map[1]} numberOfLines={1} style={{ flexShrink: 1 }}>{label}</T>
     </View>
   );
 }
@@ -300,9 +301,10 @@ export function Field({ label, hint, error, ...props }: TextInputProps & { label
       <TextInput
         placeholderTextColor={c.muted}
         accessibilityLabel={label}
+        maxFontSizeMultiplier={1.4}
         {...props}
         style={[{ minHeight: props.multiline ? 100 : 52, borderWidth: 1.5, borderColor: error ? c.bad : c.line, borderRadius: 12,
-          paddingHorizontal: 14, paddingVertical: props.multiline ? 12 : 0, backgroundColor: c.surface, color: c.text,
+          paddingHorizontal: 14, paddingVertical: props.multiline ? 12 : 10, backgroundColor: c.surface, color: c.text,
           fontFamily: FONT, fontWeight: '500', fontSize: 16 * textScale, textAlignVertical: props.multiline ? 'top' : 'center' }, props.style]}
       />
       {error ? <T v="tiny" color={c.bad}>{error}</T> : hint ? <T v="tiny" muted>{hint}</T> : null}
@@ -352,10 +354,10 @@ export function Segmented<V extends string | number | boolean>({ options, value,
         const on = o.value === value;
         return (
           <Pressable key={String(o.value)} accessibilityRole="tab" accessibilityState={{ selected: on }} onPress={() => onChange(o.value)}
-            style={{ flex: 1, minHeight: 44, borderRadius: 9, flexDirection: 'row', gap: 6, alignItems: 'center', justifyContent: 'center',
+            style={{ flex: 1, minHeight: 44, borderRadius: 9, flexDirection: 'row', gap: 6, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 6, paddingVertical: 4,
               backgroundColor: on ? c.surface : 'transparent', ...(on ? styles.shadow : null) }}>
             {o.icon ? <Ionicons name={o.icon} size={18} color={on ? c.brand : c.muted} /> : null}
-            <T v="label" color={on ? c.brand : c.muted}>{o.label}</T>
+            <T v="label" color={on ? c.brand : c.muted} numberOfLines={2} center style={{ flexShrink: 1 }}>{o.label}</T>
           </Pressable>
         );
       })}
@@ -424,8 +426,8 @@ export function MenuItem({ icon, label, sub, onPress, danger, right }: { icon: I
 export function Stat({ value, label, color }: { value: string; label: string; color?: string }) {
   return (
     <Card style={{ flex: 1, gap: 2, padding: 14 }}>
-      <T v="h2" color={color}>{value}</T>
-      <T v="tiny" muted bold>{label}</T>
+      <T v="h2" color={color} numberOfLines={1} style={{ flexShrink: 1 }}>{value}</T>
+      <T v="tiny" muted bold numberOfLines={2}>{label}</T>
     </Card>
   );
 }
@@ -442,9 +444,9 @@ export function Loading() {
 
 export function KV({ k, v, bold, color }: { k: string; v: string; bold?: boolean; color?: string }) {
   return (
-    <Row style={{ justifyContent: 'space-between' }}>
+    <Row style={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
       <T v={bold ? 'h3' : 'small'} color={color} style={{ flexShrink: 1 }}>{k}</T>
-      <T v={bold ? 'h3' : 'small'} bold={bold} color={color}>{v}</T>
+      <T v={bold ? 'h3' : 'small'} bold={bold} color={color} style={{ flexShrink: 1, textAlign: 'right' }}>{v}</T>
     </Row>
   );
 }
