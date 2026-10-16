@@ -6,7 +6,7 @@ import { useColors, useSettings } from '@/providers/SettingsProvider';
 import { FONT } from '@/theme';
 
 /** Bottom tabs with large icons and always-visible labels. */
-export function AppTabs({ tabs }: { tabs: { name: string; title: string; icon: IconName; iconOn: IconName }[] }) {
+export function AppTabs({ tabs }: { tabs: { name: string; title: string; icon: IconName; iconOn: IconName; hidden?: boolean }[] }) {
   const c = useColors();
   const { textScale } = useSettings();
   return (
@@ -26,6 +26,7 @@ export function AppTabs({ tabs }: { tabs: { name: string; title: string; icon: I
           name={t.name}
           options={{
             title: t.title,
+            href: t.hidden ? null : undefined,
             tabBarAccessibilityLabel: t.title,
             tabBarIcon: ({ color, focused }) => <Ionicons name={focused ? t.iconOn : t.icon} size={28} color={color} />,
           }}

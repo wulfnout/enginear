@@ -16,6 +16,7 @@ export default function Account() {
         <MenuItem icon="car-sport-outline" label="My garage" sub="Your cars and their service history" onPress={() => router.push('/vehicles')} />
         <MenuItem icon="options-outline" label="Preferences" sub={prefs || 'Not set yet'} onPress={() => router.push('/quiz')} />
         <MenuItem icon="location-outline" label="Address" sub={client?.address ?? 'Add your address'} onPress={() => router.push('/address')} />
+        <MenuItem icon="wallet-outline" label="Spending" sub="Monthly totals, budget and receipts" onPress={() => router.push('/spending')} />
         <MenuItem icon="card-outline" label="Payment card" sub={client?.card_last4 ? `${client.card_brand} ending ${client.card_last4}` : 'No card yet'} onPress={() => router.push('/payment')} />
         <MenuItem icon="heart-outline" label="Saved mechanics" onPress={() => router.push('/saved')} />
         <MenuItem icon="gift-outline" label="Invite a friend" sub="They get $10 off their first repair" onPress={() =>

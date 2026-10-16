@@ -123,6 +123,16 @@ export async function sendQuote(bookingId: string, items: QuoteItem[], note?: st
 export const approveQuote = (id: string) => rpc('approve_quote', { p_quote: id });
 export const declineQuote = (id: string, reason?: string) => rpc('decline_quote', { p_quote: id, p_reason: reason ?? null });
 
+/* ---------- Parts market ---------- */
+export interface PartListing {
+  id: string; title: string; price: number | null; currency: string; shipping: number | null;
+  condition: string | null; image: string | null; url: string; seller: string | null; sellerRating: string | null;
+  fits: 'yes' | 'maybe' | 'unknown';
+}
+/** Live new and used listings (eBay Motors). `configured: false` until eBay keys are added on the server. */
+export const searchParts = (query: string, condition: 'new' | 'used' | 'any', car?: { year: number; make: string; model: string } | null) =>
+  callFunction<{ configured: boolean; items: PartListing[]; total?: number }>('parts-search', { query, condition, car: car ?? null });
+
 /* ---------- Mechanic jobs ---------- */
 export async function jobFeed(lat?: number | null, lng?: number | null): Promise<JobFeedRow[]> {
   const { data, error } = await supabase.rpc('job_feed', { p_lat: lat ?? null, p_lng: lng ?? null });

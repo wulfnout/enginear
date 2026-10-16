@@ -20,14 +20,14 @@ const PLACES = [
 /** Guided booking: what, which car, where, the problem, and when. Then pick a mechanic. */
 export default function QuickBook() {
   const c = useColors();
-  const { vehicleId: fromCar } = useLocalSearchParams<{ vehicleId?: string }>();
+  const { vehicleId: fromCar, service: fromService, notes: fromNotes } = useLocalSearchParams<{ vehicleId?: string; service?: string; notes?: string }>();
   const { client } = useAuth();
   const existing = useDraft();
   const { data: vehicles } = useData(myVehicles);
-  const [service, setService] = useState<string | null>(existing?.service ?? client?.needs?.[0] ?? null);
+  const [service, setService] = useState<string | null>(fromService ?? existing?.service ?? client?.needs?.[0] ?? null);
   const [vehicleId, setVehicleId] = useState<string | null>(fromCar ?? existing?.vehicleId ?? null);
   const [place, setPlace] = useState<'mobile' | 'shop' | 'either'>(existing?.place ?? (client?.prefers ?? 'either'));
-  const [notes, setNotes] = useState(existing?.notes ?? '');
+  const [notes, setNotes] = useState(fromNotes ?? existing?.notes ?? '');
   const [day, setDay] = useState<number | null>(existing?.day ?? null);
   const [time, setTime] = useState<string | null>(existing?.time ?? null);
   const car = vehicleId ?? vehicles?.[0]?.id ?? null;

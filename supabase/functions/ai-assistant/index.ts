@@ -5,7 +5,8 @@ type Turn = { role: 'user' | 'assistant'; content: string };
 
 const APP_GUIDE = `
 EngiNear connects car owners (clients) with independent, ID-verified and background-checked mechanics. Mechanics work mobile (they come to the car), at their own shop, or both.
-CLIENT APP. Bottom tabs: Home, Find, Bookings, Spending, Me.
+CLIENT APP. Bottom tabs: Home, Find, Parts, Bookings, Me. Spending is in Me.
+- Parts tab: pick a car from My garage, browse common parts by job with tips on what to buy, see new and used listings (eBay Motors, when enabled), open a search at stores (RockAuto, AutoZone, O'Reilly, Advance, NAPA, Amazon, eBay, Car-Part.com), or tap "Have a mechanic get & install it" to book a mechanic who buys the part and adds it to a quote.
 - My garage (Home, or Me > My garage) holds the client's cars: year, make, model, mileage, VIN. Each booking is for one car.
 - Book: Home > "Book a mechanic" (service, car, come to me / take it to a shop / either, describe the problem, day, time), then pick a mechanic or "Any available mobile mechanic". Or open a mechanic and tap "Book".
 - Pricing is set by each mechanic per service, one of three ways: Flat price; Hourly + parts (labor rate x booked hours); Diagnose, then quote (a diagnostic fee first, then a parts and labor quote). Open requests to any mechanic are diagnose-then-quote with a $49 diagnostic fee.
