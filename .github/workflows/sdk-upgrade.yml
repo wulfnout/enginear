@@ -1,3 +1,4 @@
+# Upgrade (re-run after adding config plugins)
 # One-time upgrade to Expo SDK 58 (the version the current Expo Go app needs).
 # Runs on GitHub: installs SDK 58 and the matching package versions, commits package.json to main,
 # then republishes to Expo Go. The log is saved to the "sdk-upgrade-log" branch.
