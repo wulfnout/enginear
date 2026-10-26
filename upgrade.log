@@ -1,0 +1,164 @@
+npm warn ERESOLVE overriding peer dependency
+npm warn deprecated eslint@9.39.5: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+
+added 806 packages in 37s
+› Installing 1 other package using npm
+› Using ^58.0.0 instead of ~58.0.19 for expo because this version was explicitly provided. Packages excluded from dependency validation should be listed in expo.install.exclude in package.json. Learn more: https://docs.expo.dev/more/expo-cli/#configuring-dependency-validation
+> npm install
+npm error code ERESOLVE
+npm error ERESOLVE could not resolve
+npm error
+npm error While resolving: react-dom@19.3.1
+npm error Found: react@19.3.0
+npm error node_modules/react
+npm error   react@"19.3.0" from the root project
+npm error   peer react@"*" from @expo/dom-webview@58.0.2
+npm error   node_modules/@expo/dom-webview
+npm error     @expo/dom-webview@"^58.0.2" from @expo/log-box@58.0.13
+npm error     node_modules/@expo/log-box
+npm error       @expo/log-box@"^58.0.13" from expo@58.0.19
+npm error       3 more (expo-router, @expo/metro-runtime, @expo/cli)
+npm error     @expo/dom-webview@"~58.0.2" from expo@58.0.19
+npm error   48 more (@expo/log-box, @expo/vector-icons, ...)
+npm error
+npm error Could not resolve dependency:
+npm error peer react@"^19.3.1" from react-dom@19.3.1
+npm error node_modules/react-dom
+npm error   peer react-dom@"^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" from @radix-ui/react-collection@1.2.0
+npm error   node_modules/@radix-ui/react-collection
+npm error     @radix-ui/react-collection@"1.2.0" from @radix-ui/react-roving-focus@1.2.1
+npm error     node_modules/@radix-ui/react-roving-focus
+npm error       @radix-ui/react-roving-focus@"1.2.1" from @radix-ui/react-tabs@1.2.1
+npm error       node_modules/expo-router/node_modules/@radix-ui/react-tabs
+npm error   peer react-dom@"^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" from @radix-ui/react-presence@1.1.11
+npm error   node_modules/@radix-ui/react-presence
+npm error     @radix-ui/react-presence@"1.1.11" from @radix-ui/react-tabs@1.2.1
+npm error     node_modules/expo-router/node_modules/@radix-ui/react-tabs
+npm error       @radix-ui/react-tabs@"^1.1.12" from expo-router@58.0.26
+npm error       node_modules/expo-router
+npm error   7 more (@radix-ui/react-primitive, ...)
+npm error
+npm error Conflicting peer dependency: react@19.3.1
+npm error node_modules/react
+npm error   peer react@"^19.3.1" from react-dom@19.3.1
+npm error   node_modules/react-dom
+npm error     peer react-dom@"^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" from @radix-ui/react-collection@1.2.0
+npm error     node_modules/@radix-ui/react-collection
+npm error       @radix-ui/react-collection@"1.2.0" from @radix-ui/react-roving-focus@1.2.1
+npm error       node_modules/@radix-ui/react-roving-focus
+npm error         @radix-ui/react-roving-focus@"1.2.1" from @radix-ui/react-tabs@1.2.1
+npm error         node_modules/expo-router/node_modules/@radix-ui/react-tabs
+npm error     peer react-dom@"^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" from @radix-ui/react-presence@1.1.11
+npm error     node_modules/@radix-ui/react-presence
+npm error       @radix-ui/react-presence@"1.1.11" from @radix-ui/react-tabs@1.2.1
+npm error       node_modules/expo-router/node_modules/@radix-ui/react-tabs
+npm error         @radix-ui/react-tabs@"^1.1.12" from expo-router@58.0.26
+npm error         node_modules/expo-router
+npm error     7 more (@radix-ui/react-primitive, ...)
+npm error
+npm error Fix the upstream dependency conflict, or retry
+npm error this command with --force or --legacy-peer-deps
+npm error to accept an incorrect (and potentially broken) dependency resolution.
+npm error
+npm error
+npm error For a full report see:
+npm error /home/runner/.npm/_logs/2026-10-26T17_06_48_710Z-eresolve-report.txt
+npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2026-10-26T17_06_48_710Z-debug-0.log
+Cannot install the latest Expo package. Install expo@latest with npm and then run npx expo install again.
+Error: npm install exited with non-zero code: 1
+Error: npm install exited with non-zero code: 1
+    at ChildProcess.completionListener (/home/runner/work/enginear/enginear/node_modules/@expo/spawn-async/build/spawnAsync.js:113:23)
+    at Object.onceWrapper (node:events:634:26)
+    at ChildProcess.emit (node:events:519:28)
+    at ChildProcess._handle.onexit (node:internal/child_process:293:12)
+    ...
+    at spawnAsync (/home/runner/work/enginear/enginear/node_modules/@expo/spawn-async/build/spawnAsync.js:9:23)
+    at NpmPackageManager.runAsync (/home/runner/work/enginear/enginear/node_modules/@expo/package-manager/build/node/BasePackageManager.js:75:42)
+    at /home/runner/work/enginear/enginear/node_modules/@expo/package-manager/build/node/NpmPackageManager.js:68:143
+    at /home/runner/work/enginear/enginear/node_modules/@expo/package-manager/build/utils/spawn.js:20:34
+› Installing 1 other package using npm
+› Using ^58.0.0 instead of ~58.0.19 for expo because this version was explicitly provided. Packages excluded from dependency validation should be listed in expo.install.exclude in package.json. Learn more: https://docs.expo.dev/more/expo-cli/#configuring-dependency-validation
+> npm install --legacy-peer-deps
+
+added 3 packages, removed 17 packages, and audited 793 packages in 2s
+
+176 packages are looking for funding
+  run `npm fund` for details
+
+6 high severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+› Running npx expo install under the updated expo version
+> expo install --fix -- --legacy-peer-deps
+Dependencies are up to date
+› Installing 1 SDK 58.0.0 compatible native module using npm
+> npm install
+npm warn ERESOLVE overriding peer dependency
+
+added 17 packages, and audited 810 packages in 4s
+
+176 packages are looking for funding
+  run `npm fund` for details
+
+6 high severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+Dependencies are up to date
+=== expo-doctor
+Running 20 checks on your project...
+20/20 checks passed. No issues detected!
+=== export check
+Starting Metro Bundler
+
+iOS Bundled 23218ms node_modules/expo-router/entry.js (1693 modules)
+
+› Assets (42):
+node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/AntDesign.ttf (130KB)
+node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Entypo.ttf (66KB)
+node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/EvilIcons.ttf (13KB)
+node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Feather.ttf (56KB)
+node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome.ttf (166KB)
+node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf (134KB)
+node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf (34KB)
+node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf (203KB)
+node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome6_Brands.ttf (209KB)
+node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome6_Regular.ttf (68KB)
+node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome6_Solid.ttf (424KB)
+node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Fontisto.ttf (314KB)
+node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Foundation.ttf (57KB)
+node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf (390KB)
+node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf (1.3MB)
+node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialIcons.ttf (357KB)
+node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Octicons.ttf (69KB)
+node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/SimpleLineIcons.ttf (54KB)
+node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Zocial.ttf (26KB)
+node_modules/expo-router/assets/arrow_down.png (9.5KB)
+node_modules/expo-router/assets/error.png (469B)
+node_modules/expo-router/assets/file.png (138B)
+node_modules/expo-router/assets/forward.png (188B)
+node_modules/expo-router/assets/pkg.png (364B)
+node_modules/expo-router/assets/react-navigation/elements/back-icon-mask.png (653B)
+node_modules/expo-router/assets/react-navigation/elements/back-icon.png (4 variations | 566B)
+node_modules/expo-router/assets/react-navigation/elements/clear-icon.png (4 variations | 425B)
+node_modules/expo-router/assets/react-navigation/elements/close-icon.png (4 variations | 235B)
+node_modules/expo-router/assets/react-navigation/elements/search-icon.png (3 variations | 582B)
+node_modules/expo-router/assets/sitemap.png (465B)
+node_modules/expo-router/assets/unmatched.png (4.8KB)
+
+› ios bundles (1):
+_expo/static/js/ios/entry-35e4e8d2bbe9a093eba64dee9baa0b58.hbc (4.8MB)
+
+› Files (1):
+metadata.json (2.8KB)
+
+Exported: /tmp/exp
+EXPORT OK
+26:    "expo": "^58.0.0",
+43:    "react": "19.3.0",
+44:    "react-native": "0.88.0",
