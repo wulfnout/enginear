@@ -1,4 +1,4 @@
-# Upgrade (re-run after adding config plugins)
+# Upgrade (re-run adds expo-font)
 # One-time upgrade to Expo SDK 58 (the version the current Expo Go app needs).
 # Runs on GitHub: installs SDK 58 and the matching package versions, commits package.json to main,
 # then republishes to Expo Go. The log is saved to the "sdk-upgrade-log" branch.
@@ -27,6 +27,7 @@ jobs:
           cd "$DIR"
           { npm install --no-audit --no-fund || npm install --no-audit --no-fund --legacy-peer-deps; } > "$GITHUB_WORKSPACE/upgrade.log" 2>&1 || true
           { npx expo install expo@^58.0.0 --fix || npx expo install expo@^58.0.0 --fix -- --legacy-peer-deps; } >> "$GITHUB_WORKSPACE/upgrade.log" 2>&1
+          { npx expo install expo-font || npx expo install expo-font -- --legacy-peer-deps; } >> "$GITHUB_WORKSPACE/upgrade.log" 2>&1 || true
           npx expo install --fix >> "$GITHUB_WORKSPACE/upgrade.log" 2>&1 || npx expo install --fix -- --legacy-peer-deps >> "$GITHUB_WORKSPACE/upgrade.log" 2>&1 || true
           echo "=== expo-doctor" >> "$GITHUB_WORKSPACE/upgrade.log"; npx --yes expo-doctor@latest >> "$GITHUB_WORKSPACE/upgrade.log" 2>&1 || true
           echo "=== export check" >> "$GITHUB_WORKSPACE/upgrade.log"; npx expo export --platform ios --output-dir /tmp/exp >> "$GITHUB_WORKSPACE/upgrade.log" 2>&1 && echo "EXPORT OK" >> "$GITHUB_WORKSPACE/upgrade.log" || echo "EXPORT FAILED" >> "$GITHUB_WORKSPACE/upgrade.log"
